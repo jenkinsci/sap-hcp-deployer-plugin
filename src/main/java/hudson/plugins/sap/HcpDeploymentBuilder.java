@@ -1,5 +1,6 @@
 package hudson.plugins.sap;
 
+import hudson.EnvVars;
 import hudson.Launcher;
 import hudson.Extension;
 import hudson.model.BuildListener;
@@ -11,6 +12,10 @@ import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import net.sf.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 
 public class HcpDeploymentBuilder extends Builder {
 
@@ -60,6 +65,23 @@ public class HcpDeploymentBuilder extends Builder {
         return packageLocation;
     }
 
+    private String getCurrentJobName(AbstractBuild build, BuildListener listener) {
+        try {
+            EnvVars envVars = new EnvVars();
+            envVars = build.getEnvironment(listener);
+            return envVars.get("JOB_NAME");
+        } catch (IOException e) {
+            listener.getLogger().println(e.getMessage());
+        } catch (InterruptedException e) {
+            listener.getLogger().println(e.getMessage());
+        }
+        return null;
+    }
+
+    private String defaultWarExtractor(AbstractBuild build, BuildListener listener) {
+        return System.getProperty("user.dir") + File.separator + "work" + File.separator + "jobs" + File.separator + getCurrentJobName(build, listener);
+    }
+
     @Override
     public boolean perform(AbstractBuild build, Launcher launcher, BuildListener listener) {
         listener.getLogger().println("deploying application to SAP Hana Cloud Platform");
@@ -105,8 +127,8 @@ public class HcpDeploymentBuilder extends Builder {
         if (packageLocation != null && !packageLocation.equals(""))
             commandLine.setSourceLocation(packageLocation);
         else {
-            listener.getLogger().println("war/jar location is null or empty");
-            return false;
+            listener.getLogger().println("war/jar location is null or empty. So using default location.");
+            commandLine.setSourceLocation(defaultWarExtractor(build, listener));
         }
         if (getDescriptor().neoSdkHome() != null && !getDescriptor().neoSdkHome().equals(""))
             commandLine.setNeosdk(getDescriptor().neoSdkHome());
