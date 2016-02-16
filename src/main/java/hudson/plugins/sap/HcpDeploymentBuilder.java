@@ -8,6 +8,8 @@ import hudson.model.AbstractBuild;
 import hudson.plugins.sap.utils.NeoCommandLine;
 import hudson.tasks.Builder;
 import hudson.tasks.BuildStepDescriptor;
+import hudson.util.FormValidation;
+import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.DataBoundConstructor;
 
@@ -15,7 +17,6 @@ import net.sf.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 
 public class HcpDeploymentBuilder extends Builder {
 
@@ -94,36 +95,12 @@ public class HcpDeploymentBuilder extends Builder {
         listener.getLogger().println("NEO SDK root directory : " + getDescriptor().neoSdkHome());
         NeoCommandLine commandLine = new NeoCommandLine();
 
-        if (host != null && !host.equals(""))
-            commandLine.setHost(host);
-        else {
-            listener.getLogger().println("hostname is null or empty");
-            return false;
-        }
-        if (account != null && !account.equals(""))
-            commandLine.setAccount(account);
-        else {
-            listener.getLogger().println("accountname is null or empty");
-            return false;
-        }
-        if (user != null && !user.equals(""))
-            commandLine.setUser(user);
-        else {
-            listener.getLogger().println("username is null or empty");
-            return false;
-        }
-        if (password != null && !password.equals(""))
-            commandLine.setPassword(password);
-        else {
-            listener.getLogger().println("password is null or empty");
-            return false;
-        }
-        if (appname != null && !appname.equals(""))
-            commandLine.setAppName(appname);
-        else {
-            listener.getLogger().println("application name is null or empty");
-            return false;
-        }
+        commandLine.setHost(host);
+        commandLine.setAccount(account);
+        commandLine.setUser(user);
+        commandLine.setPassword(password);
+        commandLine.setAppName(appname);
+
         if (packageLocation != null && !packageLocation.equals(""))
             commandLine.setSourceLocation(packageLocation);
         else {
@@ -152,6 +129,23 @@ public class HcpDeploymentBuilder extends Builder {
 
         public DescriptorImpl() {
             load();
+        }
+
+        public FormValidation doValidateInput(@QueryParameter("host") final String host, @QueryParameter("account") final String account, @QueryParameter("user") final String user,
+                                              @QueryParameter("password") final String password, @QueryParameter("appname") final String appname,
+                                              @QueryParameter("packageLocation") final String packageLocation) {
+            if (host == null || host.equals(""))
+                return FormValidation.error("hostname is null or empty");
+            if (account == null || account.equals(""))
+                return FormValidation.error("accountname is null or empty");
+            if (user == null || user.equals(""))
+                return FormValidation.error("username is null or empty");
+            if (password == null || password.equals(""))
+                return FormValidation.error("password is null or empty");
+            if (appname == null || appname.equals(""))
+                return FormValidation.error("application name is null or empty");
+
+            return FormValidation.ok();
         }
 
         @Override

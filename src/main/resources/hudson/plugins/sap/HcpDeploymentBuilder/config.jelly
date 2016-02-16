@@ -18,4 +18,5 @@
     <f:entry title="war/jar location" field="packageLocation">
         <f:textbox />
     </f:entry>
+    <f:validateButton title="Validate Input" method="validateInput" with="host,account,user,password,appname,packageLocation"/>
 </j:jelly>
