@@ -8,6 +8,7 @@ import org.codehaus.plexus.util.cli.WriterStreamConsumer;
 import java.io.File;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 
 public class NeoCommandLine {
     private String host;
@@ -99,17 +100,20 @@ public class NeoCommandLine {
 
         logger.println("Executing command : ");
 
-        String commandForm = "";
+        StringBuffer commandForm = new StringBuffer();
         for (String command: commandline.getCommandline()) {
-            commandForm = commandForm + command + " ";
+            commandForm = commandForm.append(command).append(" ");
         }
-        logger.println(commandForm);
-        WriterStreamConsumer systemOut = new WriterStreamConsumer(new OutputStreamWriter(System.out));
+        logger.println(commandForm.toString());
 
         try {
+            WriterStreamConsumer systemOut = new WriterStreamConsumer(new OutputStreamWriter(System.out, "UTF-8"));
             CommandLineUtils.executeCommandLine(commandline, systemOut, systemOut);
             logger.println("command successfully executed");
-        } catch (CommandLineException e) {
+        } catch (UnsupportedEncodingException e) {
+            logger.println(e.getMessage());
+        }
+          catch (CommandLineException e) {
             logger.println(e.getMessage());
         }
     }

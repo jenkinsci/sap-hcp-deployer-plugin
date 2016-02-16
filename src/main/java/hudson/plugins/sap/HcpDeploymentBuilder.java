@@ -68,8 +68,8 @@ public class HcpDeploymentBuilder extends Builder {
 
     private String getCurrentJobName(AbstractBuild build, BuildListener listener) {
         try {
-            EnvVars envVars = new EnvVars();
-            envVars = build.getEnvironment(listener);
+            EnvVars envVars;
+            envVars = (EnvVars) build.getEnvironment(listener);
             return envVars.get("JOB_NAME");
         } catch (IOException e) {
             listener.getLogger().println(e.getMessage());
