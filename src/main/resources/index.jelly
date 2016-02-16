@@ -1,0 +1,4 @@
+<?jelly escape-by-default='true'?>
+<div>
+  This plugin is a plugin to deploy war/jar files to SAP Hana Cloud Platform.
+</div>

@@ -1,0 +1,21 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+    <f:entry title="Host" field="host">
+        <f:textbox />
+    </f:entry>
+    <f:entry title="Account" field="account">
+        <f:textbox />
+    </f:entry>
+    <f:entry title="User" field="user">
+        <f:textbox />
+    </f:entry>
+    <f:entry title="Password" field="password">
+        <f:password />
+    </f:entry>
+    <f:entry title="Application Name" field="appname">
+        <f:textbox />
+    </f:entry>
+    <f:entry title="war/jar location" field="packageLocation">
+        <f:textbox />
+    </f:entry>
+</j:jelly>
