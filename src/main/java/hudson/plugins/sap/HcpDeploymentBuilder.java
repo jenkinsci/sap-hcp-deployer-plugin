@@ -80,7 +80,7 @@ public class HcpDeploymentBuilder extends Builder {
     }
 
     private String defaultWarExtractor(AbstractBuild build, BuildListener listener) {
-        return System.getProperty("user.dir") + File.separator + "work" + File.separator + "jobs" + File.separator + getCurrentJobName(build, listener);
+        return System.getProperty("user.dir") + File.separator + "jobs" + File.separator + getCurrentJobName(build, listener) + File.separator + "workspace";
     }
 
     @Override
