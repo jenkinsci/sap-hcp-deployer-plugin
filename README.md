@@ -7,3 +7,8 @@ Pre-requisites
 ==============
 
 The SAP Neo SDK should be downloaded ( from [here](https://tools.hana.ondemand.com/#cloud)) & installed.
+
+Jenkins compatibility
+=====================
+
+works with version >= 1.647
