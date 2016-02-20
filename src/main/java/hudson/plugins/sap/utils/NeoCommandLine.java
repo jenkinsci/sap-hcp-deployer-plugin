@@ -101,8 +101,18 @@ public class NeoCommandLine {
         logger.println("Executing command : ");
 
         StringBuffer commandForm = new StringBuffer();
+
+        boolean passwordFlag = false;
         for (String command: commandline.getCommandline()) {
-            commandForm = commandForm.append(command).append(" ");
+            if (passwordFlag) {
+                commandForm = commandForm.append("****").append(" ");
+                passwordFlag = false;
+            }
+            else
+                commandForm = commandForm.append(command).append(" ");
+
+            if (command.startsWith("--password"))
+                passwordFlag = true;
         }
         logger.println(commandForm.toString());
 
