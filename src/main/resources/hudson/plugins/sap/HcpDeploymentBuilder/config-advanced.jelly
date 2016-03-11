@@ -1,0 +1,62 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+    <f:entry title="Runtime Name" field="Runtime Name">
+        <f:select>
+            <f:option value="Java EE 6 Web Profile">Java EE 6 Web Profile</f:option>
+            <f:option value="Java Web">Java Web</f:option>
+            <f:option value="Java Web Tomcat 7"></f:option>
+        </f:select>
+    </f:entry>
+    <f:entry title="Runtime Version" field="Runtime Version">
+        <f:select>
+            <f:option value="2">2</f:option>
+            <f:option value="2.80">2.80</f:option>
+            <f:option value="2.79">2.79</f:option>
+            <f:option value="2.78">2.78</f:option>
+            <f:option value="2.77">2.77</f:option>
+            <f:option value="2.76">2.76</f:option>
+            <f:option value="2.75">2.75</f:option>
+        </f:select>
+    </f:entry>
+    <f:entry title="Compute Unit Size">
+        <f:select>
+            <f:option value="Lite">Lite</f:option>
+            <f:option value="Pro">Pro</f:option>
+            <f:option value="Premium">Premium</f:option>
+            <f:option value="Premium Plus">Premium Plus</f:option>
+        </f:select>
+    </f:entry>
+    <f:entry title="Number of Processes">
+        <f:entry title="Min">
+            <f:textbox default="1"/>
+        </f:entry>
+        <f:entry title="Max">
+            <f:textbox default="1"/>
+        </f:entry>
+    </f:entry>
+    <f:entry title="JVM Version">
+        <f:select>
+            <f:option value="JRE7">JRE7</f:option>
+            <f:option value="JRE6">JRE6</f:option>
+        </f:select>
+    </f:entry>
+    <f:entry title="JVM Atguments">
+        <f:textbox/>
+    </f:entry>
+    <f:entry title="Max Number of Threads">
+        <f:textbox default="200"/>
+    </f:entry>
+    <f:entry title="Connection Timeout (ms)">
+        <f:textbox default="20000"/>
+    </f:entry>
+    <f:entry title="URI Encoding">
+        <f:textbox default="ISO-8859-1"/>
+    </f:entry>
+    <f:entry title="Response Compression">
+        <f:select>
+            <f:option value="Off">Off</f:option>
+            <f:option value="On">On</f:option>
+            <f:option value="Force">Force</f:option>
+        </f:select>
+    </f:entry>
+</j:jelly>
