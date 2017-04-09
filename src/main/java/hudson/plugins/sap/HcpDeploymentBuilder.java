@@ -9,6 +9,7 @@ import hudson.plugins.sap.utils.NeoCommandLine;
 import hudson.tasks.Builder;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.util.FormValidation;
+import hudson.util.ListBoxModel;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -115,6 +116,7 @@ public class HcpDeploymentBuilder extends Builder {
         }
 
         commandLine.deployApplication(listener.getLogger());
+        commandLine.startApplication(listener.getLogger());
         return true;
     }
 
@@ -163,6 +165,15 @@ public class HcpDeploymentBuilder extends Builder {
             neo_sdk_home = json.getString("NEO_SDK_HOME");
             save();
             return true;
+        }
+
+        public ListBoxModel doFillRuntimeNameItems() {
+            ListBoxModel model = new ListBoxModel();
+            model.add("Java EE 6 Web Profile", "Java EE 6 Web Profile");
+            model.add("Java Web", "Java Web");
+            model.add("Java Web Tomcat 7", "Java Web Tomcat 7");
+
+            return model;
         }
 
         public String neoSdkHome() {

@@ -119,11 +119,56 @@ public class NeoCommandLine {
         try {
             WriterStreamConsumer systemOut = new WriterStreamConsumer(new OutputStreamWriter(System.out, "UTF-8"));
             CommandLineUtils.executeCommandLine(commandline, systemOut, systemOut);
-            logger.println("command successfully executed");
+            logger.println("application deployed");
         } catch (UnsupportedEncodingException e) {
             logger.println(e.getMessage());
         }
           catch (CommandLineException e) {
+            logger.println(e.getMessage());
+        }
+    }
+
+    public void startApplication(PrintStream logger) {
+        Commandline commandline = new Commandline();
+
+        if (System.getProperty("os.name").startsWith("Windows"))
+            commandline.setExecutable(neosdk + File.separator + "tools" + File.separator + "neo.bat");
+        else
+            commandline.setExecutable(neosdk + File.separator + "tools" + File.separator + "neo.sh");
+
+        commandline.setWorkingDirectory(neosdk + File.separator + "tools");
+        commandline.addArguments(new String[]{"start"});
+        commandline.addArguments(new String[]{"--host", host});
+        commandline.addArguments(new String[]{"--account", account});
+        commandline.addArguments(new String[]{"--user", user});
+        commandline.addArguments(new String[]{"--password", password});
+        commandline.addArguments(new String[]{"--application", appName});
+
+        logger.println("Executing command : ");
+
+        StringBuffer commandForm = new StringBuffer();
+
+        boolean passwordFlag = false;
+        for (String command: commandline.getCommandline()) {
+            if (passwordFlag) {
+                commandForm = commandForm.append("****").append(" ");
+                passwordFlag = false;
+            } else {
+                commandForm = commandForm.append(command).append(" ");
+            }
+
+            if (command.startsWith("--password"))
+                passwordFlag = true;
+        }
+        logger.println(commandForm.toString());
+
+        try {
+            WriterStreamConsumer systemOut = new WriterStreamConsumer(new OutputStreamWriter(System.out, "UTF-8"));
+            CommandLineUtils.executeCommandLine(commandline, systemOut, systemOut);
+            logger.println("application start triggered");
+        } catch (UnsupportedEncodingException e) {
+            logger.println(e.getMessage());
+        } catch (CommandLineException e) {
             logger.println(e.getMessage());
         }
     }
