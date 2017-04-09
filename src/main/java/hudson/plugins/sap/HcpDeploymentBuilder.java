@@ -116,6 +116,7 @@ public class HcpDeploymentBuilder extends Builder {
         }
 
         commandLine.deployApplication(listener.getLogger());
+        commandLine.startApplication(listener.getLogger());
         return true;
     }
 
